@@ -65,10 +65,50 @@ function addDepartment () {
 
 function addRole () {
     // prompted to enter the name, salary, and department for the role and that role is added to the database
+    inquirer.prompt([
+        {
+            name: "roleName",
+            type: "input", 
+            message: "What is the role?"
+        },
+        {
+            name: "salary", 
+            type: "input", 
+            message: "What is the salary for this role?"
+        }, 
+        {
+            name: "roleDepartment", 
+            type: "input", 
+            message: "What is the department associated with this role?"
+        }
+    ])
 }
 
 function addEmployee () {
     // prompted to enter the employee’s first name, last name, role, and manager, and that employee is added to the database
+    inquirer.prompt([
+        {
+            name: "firstName",
+            type:"input", 
+            message: "What is the employee's first name?" 
+        },
+        {
+            name: "lastName",
+            type:"input", 
+            message: "What is the employee's last name?"
+        },
+        {
+            name: "role",
+            type:"input", 
+            message: "What is the employee's role"
+        }, 
+        {
+            name: "manager",
+            type:"input", 
+            message: "Who is the employee's manager?"
+        }
+
+    ])
 }
 
 function updateEmployeeRole () {
