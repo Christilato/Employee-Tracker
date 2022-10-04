@@ -7,14 +7,8 @@ const db = mysql.createConnection(
       user: 'root',
       password: 'rootroot',
       database: 'employee_tracker_db'
-    },
-    console.log(`Connected to the employee_tracker_db database.`)
-  );
-  askQuestion();
-
-  db.connect(function (err){
-    if(err) throw err;
-  });
+    })
+  
 
   module.exports = db;
   

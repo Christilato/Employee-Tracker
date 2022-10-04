@@ -1,8 +1,12 @@
 const { prompt } = require('inquirer');
 const cT = require('console.table');
-const db = require('./db');
+const db = require("./db/connection.js");
 
-
+db.connect(function (err){
+    if(err) throw err;
+    console.log(`Connected to the employee_tracker_db database.`)  
+    askQuestion();
+  });
 
 function askQuestion ()  {
     prompt([
