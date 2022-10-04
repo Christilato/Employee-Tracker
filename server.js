@@ -1,7 +1,7 @@
 require('console.table');
-const { prompt } = require("inquirer");
+const { prompt } = require('inquirer');
+const db = require('./db');
 
-const db = require("./db");
 
 
 function askQuestion ()  {
@@ -79,10 +79,24 @@ function askQuestion ()  {
 
 function viewDepartments (){
     // then i am presented with a formatted table showing department names & department id
+    db.findAllDepartments()
+    .then (([rows]) => {
+        let departments = rows;
+        console.log("\n");
+        console.table(employees);
+    })
+    .then (() => askQuestion ());
 }
 
 function viewRoles () {
     // then i am presented with the job title, role id, the department that role belongs to, and the salary for that role
+    db.findAllRoles ()
+    .then (([rows]) => {
+        let roles = rows;
+        console.log("\n");
+        console.table(roles);
+    })
+    .then (() => askQuestion ());
 } 
 
 function viewEmployees () {
@@ -98,6 +112,7 @@ function viewEmployees () {
 
 function addDepartment () {
     // prompted to enter the name of the department and that department is added to the database
+    db.find
 }
 
 function addRole () {
