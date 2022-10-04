@@ -1,5 +1,6 @@
 const { prompt } = require('inquirer');
 const cT = require('console.table');
+const indx = require("./db/index.js");
 const db = require("./db/connection.js");
 
 db.connect(function (err){

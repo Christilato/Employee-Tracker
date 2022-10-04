@@ -1,4 +1,5 @@
-const connection = require("./connection");
+const connection = require("./connection.js");
+console.log("index.js connected");
 
 class DB {
     constructor (connection) {
