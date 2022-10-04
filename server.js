@@ -1,49 +1,79 @@
-const express = require('express');
-const mysql = require('mysql2');
-const cTable = require('console.table');
-const { default: inquirer } = require('inquirer');
+require('console.table');
+const { prompt } = require("inquirer");
 
-const PORT = process.env.PORT || 3001;
-const app = express();
+const db = require("./db");
 
-// Express middleware
-app.use(express.urlencoded({ extended: false }));
-app.use(express.json());
-
-// Connect to database
-const db = mysql.createConnection(
-  {
-    host: 'localhost',
-    user: 'root',
-    password: 'rootroot',
-    database: 'employee_tracker_db'
-  },
-  console.log(`Connected to the employee_tracker_db database.`)
-);
-
-// Query database
-db.query('SELECT * FROM students', function (err, results) {
-  console.log(results);
-});
 
 function askQuestion ()  {
-    inquirer.prompt([
+    prompt([
     {
         type: "list",
         message: "What would you like to do?",
         name: "choice", 
         choices: [
-
-            "View all departments", 
-            "View all roles", 
-            "view all employees", 
-            "add a department", 
-            "add a role", 
-            "add an employee", 
-            "update an employee role"
-
+            {
+              name: "View All Employees",
+              value: "VIEW_EMPLOYEES"
+            },
+            {
+                name: "View All Departments",
+                value: "VIEW_DEPARTMENTS"
+              },   
+              {
+                name: "View All Role",
+                value: "VIEW_ROLES"
+              },
+              {
+                name: "Add a department",
+                value: "ADD_DEPARTMENT"
+              },
+              {
+                name: "Add a role",
+                value: "ADD_ROLE"
+              },
+              {
+                name: "Add an employee",
+                value: "ADD_EMPLOYEE"
+              },
+              {
+                name: "Update an employee role",
+                value: "UPDATE_EMPLOYEE"
+              },
+              {
+                name: "Quit",
+                value: "QUIT"
+              }
         ]    
-    }])
+    }
+]).then ( res => {
+    let choice = res.choice
+    switch (choice) {
+        case "VIEW_DEPARTMENTS":
+            viewDepartments();
+            break;
+        case "VIEW_ROLES":
+            viewRoles();
+            break;
+        case "VIEW_EMPLOYEES":
+            viewEmployees();
+            break;
+        case "ADD_DEPARTMENT":
+            addDepartment();
+            break;
+        case "ADD_ROLE":
+            addRole();
+            break;
+        case "ADD_EMPLOYEE":
+            addEmployee();
+            break;
+        case "UPDATE_EMPLOYEE": 
+            updateEmployeeRole();
+            break;
+        default : 
+            quit ();
+    }
+
+})
 
 };
 
@@ -57,6 +87,13 @@ function viewRoles () {
 
 function viewEmployees () {
     // formatted table showing employee data, including employee ids, first names, last names, job titles, departments, salaries, and managers that the employees report to
+    db.findAllEmployees() 
+    .then (([rows]) => {
+        let employees = rows;
+        console.log("\n");
+        console.table(employees);
+    })
+    .then (() => askQuestion());
 }
 
 function addDepartment () {
@@ -65,23 +102,39 @@ function addDepartment () {
 
 function addRole () {
     // prompted to enter the name, salary, and department for the role and that role is added to the database
-    inquirer.prompt([
-        {
-            name: "roleName",
-            type: "input", 
-            message: "What is the role?"
-        },
-        {
-            name: "salary", 
-            type: "input", 
-            message: "What is the salary for this role?"
-        }, 
-        {
-            name: "roleDepartment", 
-            type: "input", 
-            message: "What is the department associated with this role?"
-        }
-    ])
+    db.findAllDepartments() 
+    .then(([rows]) => {
+        let departments = rows;
+        const departmentChoices = departments.map (({id,name}) => ({
+            name: name,
+            value: id,
+        }));
+        prompt([
+            {
+                name: "roleName",
+                message: "What is the role?"
+            },
+            {
+                name: "salary", 
+                message: "What is the salary for this role?"
+            }, 
+            {
+                name: "roleDepartment", 
+                type: "list", 
+                message: "What is the department associated with this role?",
+                choices: departmentChoices
+            }
+        ])
+        .then (role => {
+            db.createRole(role)
+            .then (() => console.log(`added ${role.name_role} to the database`))
+            .then (() => askQuestion());
+        });
+    })
+    
+    
+    
+    
 }
 
 function addEmployee () {
