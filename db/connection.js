@@ -10,6 +10,7 @@ const db = mysql.createConnection(
     },
     console.log(`Connected to the employee_tracker_db database.`)
   );
+  askQuestion();
 
   db.connect(function (err){
     if(err) throw err;
