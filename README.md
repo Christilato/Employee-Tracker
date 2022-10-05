@@ -5,5 +5,8 @@ Your assignment this week is to build a command-line application from scratch to
 
 [Webpage screenshot](./Assets/screenshot.png)
 
-## Github link
-[Live-link](https://christilato.github.io/Employee-Tracker/)
+## Video link
+[Video-link](https://drive.google.com/file/d/1CJYJ12EZVgwucoVu8dYC2OuCC2xrMPZL/view)
+
+## Github Link
+[Github User Profile](https://github.com/Christilato/Employee-Tracker)
