@@ -1,5 +1,5 @@
-const connection = require("./connection.js");
-console.log("index.js connected");
+const connection = require("./connection");
+
 
 class DB {
     constructor (connection) {
@@ -49,3 +49,5 @@ class DB {
     //     )
     // }
 };
+
+module.exports = new DB;
