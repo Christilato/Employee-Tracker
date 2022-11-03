@@ -17,19 +17,19 @@ class DB {
    
     findAllDepartments () {
         return this.connection.promise().query(
-            "SELECT employee.first_name, employee.last_name, departments.name AS departments FROM employee JOIN role ON employee.role_id = role.id JOIN departments ON role.department_id ORDER BY employee.id;"
+            "SELECT departments.id, departments.name FROM departments;"
         );
     }
     
     findAllRoles () {
         return this.connection.promise().query(
-            "SELECT employee.first_name, employee.last_name, role.title AS Title FROM employee employee JOIN role ON employee.role_id = role.id;"
+            "SELECT role.id, role.title, departments.name AS department, role.salary FROM role LEFT JOIN departments ON role.department_id = departments.id;"
         );
     }
    
 
     createEmployee (employee) {
-        return this.connection.promise.query(
+        return this.connection.promise().query(
             "INSERT INTO employee SET ?", employee
         );
     }
@@ -39,17 +39,17 @@ class DB {
             "INSERT INTO role SET ?", role
         );
     }
-    createDepartment (department) {
+    createDepartment (departments) {
         return this.connection.promise().query(
             "INSERT INTO departments SET ?", departments
         );
     }
 
-    // newEmployeeUpdated () {
-    //     return.this.connection.promise().query(
-    //         "SELECT employee.last_name, role.title FROM employee JOIN role ON employee.role_id = role.id;"
-    //     )
-    // }
+    newEmployeeUpdated (roleId, employeeId) {
+        return this.connection.promise().query(
+            "UPDATE employee SET role_id = ? WHERE id = ?", [roleId, employeeId]
+        );
+    }
 };
 
 module.exports = new DB(connection);
