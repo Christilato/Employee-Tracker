@@ -4,11 +4,11 @@ The purpose of this project was to create a content management system to give th
 This command line application uses node.js, inquirer, and mysql as it's core technologies.
 
 ## Technologies Used
-Javascript
-MySql
-Node.js
-Inquirer
-ConsoleTable
+1. Language: Javascript
+2. Database: MySql
+3. Environment: Node.js
+4. NPM: Inquirer
+5. NPM: ConsoleTable
 
 ## Screenshot
 
